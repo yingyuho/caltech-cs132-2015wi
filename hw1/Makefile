@@ -1,9 +1,11 @@
 BINDIR=bin
 PRG1=$(BINDIR)/load
+PRG2=$(BINDIR)/acquire
 SRC1=load.cpp
+SRC2=acquire.cpp
 CFLAGS=
 LDFLAGS=-lopencv_core -lopencv_highgui
-PRGS=$(PRG1)
+PRGS=$(PRG1) $(PRG2)
 
 .PHONY: all clean
 
@@ -13,7 +15,10 @@ $(BINDIR):
 	mkdir $(BINDIR)
 
 $(PRG1): $(SRC1)
-	g++ $(LDFLAGS) $(CFLAGS) -o $(PRG1) $^
+	g++ $(LDFLAGS) $(CFLAGS) -o $@ $^
+
+$(PRG2): $(SRC2)
+	g++ $(LDFLAGS) $(CFLAGS) -o $@ $^
 
 clean:
 	rm $(PRGS)
