@@ -1,4 +1,5 @@
 BINDIR=bin
+GXX=g++
 PRG1=$(BINDIR)/load
 PRG2=$(BINDIR)/acquire
 SRC1=load.cpp
@@ -15,10 +16,10 @@ $(BINDIR):
 	mkdir $(BINDIR)
 
 $(PRG1): $(SRC1)
-	g++ $(LDFLAGS) $(CFLAGS) -o $@ $^
+	$(GXX) $(LDFLAGS) $(CFLAGS) -o $@ $^
 
 $(PRG2): $(SRC2)
-	g++ $(LDFLAGS) $(CFLAGS) -o $@ $^
+	$(GXX) $(LDFLAGS) $(CFLAGS) -o $@ $^
 
 clean:
 	rm $(PRGS)

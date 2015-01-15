@@ -1,5 +1,7 @@
+#include <cstdio>
 #include <iostream>
 #include <string>
+#include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
 using namespace cv;
@@ -16,7 +18,7 @@ namespace {
         char filename[256];
         string window_name = "M = Save | Q/Esc = Exit";
 
-        namedWindow(window_name, 1);
+        namedWindow(window_name, WINDOW_AUTOSIZE);
 
         for (;;) {
             // Get a frame and display
@@ -55,25 +57,23 @@ namespace {
 
 int main(int argc, char const *argv[])
 {
-    string filefmt = "";
     VideoCapture cap;
+    string input;
+    int camera_no = 0;
 
-    if (filefmt.empty()) {
-        // Open the default camera
-        cap.open(0);
-        if (
-            !cap.set(CV_CAP_PROP_FRAME_WIDTH, CAP_WIDTH) || 
-            !cap.set(CV_CAP_PROP_FRAME_HEIGHT, CAP_HEIGHT)
-        ) {
-            fprintf(
-                stderr, "Camera does not support w=%d:h=%d\n", 
-                CAP_WIDTH, CAP_HEIGHT);
-        }
+    cout << "Select camera number (0): ";
+    getline(cin, input);
+
+    try {
+        camera_no = stoi(input);
+    } catch (const invalid_argument& e) {
+        camera_no = 0;
     }
-    else {
-        // Load from files
-        cap.open(filefmt);
-    }
+
+    printf("Camera %d selected.\n", camera_no);
+
+    // Open camera by number
+    cap.open(camera_no);
 
     // Check if we succeeded
     if(!cap.isOpened()) {
@@ -82,7 +82,17 @@ int main(int argc, char const *argv[])
         return -1;
     }
 
+    // Set resolution to 320 x 240
+    if (
+        !cap.set(CV_CAP_PROP_FRAME_WIDTH, CAP_WIDTH) || 
+        !cap.set(CV_CAP_PROP_FRAME_HEIGHT, CAP_HEIGHT)
+    ) {
+        fprintf(
+            stderr, "Camera does not support w=%d:h=%d\n", 
+            CAP_WIDTH, CAP_HEIGHT);
+    }
 
+    // Start capturing images
     process(cap);
 
     return 0;
