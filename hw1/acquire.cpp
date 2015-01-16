@@ -43,7 +43,7 @@ namespace {
             case 'M':
                 sprintf(filename, "IMG_SAVED%.3d.bmp", count++);
                 imwrite(filename, img);
-                printf("Saved %s\n", filename);
+                printf("%s saved.\n", filename);
                 break;
             default:
                 break;
