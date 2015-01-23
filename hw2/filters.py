@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+"""
+Image filters
+"""
+
 from __future__ import division, print_function
 
 import argparse
@@ -35,10 +39,16 @@ def main():
     group.add_argument('-g', type=int, metavar='N', 
         help=('compute Gaussian blur with window size N and sigma N/5; '
             'N must be a positive odd integer'))
+    parser.add_argument('-q', action='store_true', 
+        help='quite mode; don\'t display result on screen')
     parser.add_argument('-o', dest='outfile', metavar='OUTFILE', 
-        help='output image filename; or display on screen if not provided')
+        help='output image filename')
     parser.add_argument('infile', help='input image filename')
     args = parser.parse_args()
+
+    if args.q and not args.outfile:
+        parser.error('OUTFILE must be specified in quiet mode')
+        return
 
     # Select appropriate kernel
     if args.x:
@@ -68,10 +78,11 @@ def main():
     out = convolve(image, ker)
     out = np.round((out - 255 * a) / (b - a)).astype('uint8')
 
-    # Save image or display on screen
-    if args.outfile is not None:
+    # Save image
+    if args.outfile:
         cv2.imwrite(args.outfile, out)
-    else:
+    # Show on screen
+    if not args.q:
         cv2.namedWindow('image', cv2.WINDOW_NORMAL)
         cv2.imshow('image', out)
         print('Press any key to exit.')

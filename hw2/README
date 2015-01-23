@@ -1,0 +1,3 @@
+"python PROG.py -h" to see usage for PROG = filters | harris | match
+
+"make" to see examples and generate plots
