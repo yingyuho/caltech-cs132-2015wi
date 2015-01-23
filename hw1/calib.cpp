@@ -33,6 +33,7 @@ int main(int argc, char const *argv[])
     bool to_skip = false;
     char key;
 
+    // Model corner coords
     for (int i = 0; i < board_size.height; i++)
         for (int j = 0; j < board_size.width; j++)
             object_corners.push_back(Point3f(i, j, 0.0f));
@@ -40,20 +41,25 @@ int main(int argc, char const *argv[])
     namedWindow(window_name, WINDOW_AUTOSIZE);
 
     for (;;) {
+        // Load IMG = IMG_SAVED000.bmp, IMG_SAVED001.bmp, ...
         sprintf(filename, "IMG_SAVED%.3d.bmp", count++);
         img = imread(filename, 0);
         printf("IMG = %s\n", filename);
 
+        // Break if no more images
         if (img.empty())
             break;
 
+        // Find corners
         pattern_found = findChessboardCorners(img, board_size, image_corners);
 
         if (pattern_found) {
+            // Refine corner locations
             cornerSubPix(img, image_corners, 
                 Size(11, 11), Size(-1, -1),
                 TermCriteria(CV_TERMCRIT_EPS + CV_TERMCRIT_ITER, 30, 0.1));
 
+            // Store corner coords on images and model
             image_points.push_back(image_corners);
             object_points.push_back(object_corners);
         }
@@ -61,6 +67,7 @@ int main(int argc, char const *argv[])
         if (to_skip)
             continue;
 
+        // Show detected corners
         img.copyTo(img2);
 
         drawChessboardCorners(img2, board_size, image_corners, pattern_found);
@@ -102,11 +109,6 @@ int main(int argc, char const *argv[])
     FileStorage fs("test.yml", FileStorage::WRITE);
     fs  << "intrinsic" << camera_matrix 
         << "distcoeff" << dist_coeffs;
-
-    // cout << camera_matrix << endl;
-    // cout << dist_coeffs << endl;
-    // cout << rvecs << endl;
-    // cout << tvecs << endl;
 
     return 0;
 }

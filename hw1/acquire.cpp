@@ -41,6 +41,7 @@ namespace {
             // M to save image
             case 'm':
             case 'M':
+                // Save to IMG_SAVED000.bmp, IMG_SAVED001.bmp, ...
                 sprintf(filename, "IMG_SAVED%.3d.bmp", count++);
                 imwrite(filename, img);
                 printf("%s saved.\n", filename);
@@ -61,6 +62,7 @@ int main(int argc, char const *argv[])
     string input;
     int camera_no = 0;
 
+    // Ask for camera number with default 0
     cout << "Select camera number (0): ";
     getline(cin, input);
 
