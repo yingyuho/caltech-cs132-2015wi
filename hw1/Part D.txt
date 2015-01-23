@@ -1,0 +1,34 @@
+Part D
+
+a. 
+
+4:3
+
+
+b.
+
+320 x 240
+
+
+c. 
+
+Horizontal: atan(320 / 2 / 336) = 0.44 rad = 25.5 deg
+
+Vertical:	atan(240 / 2 / 336) = 0.34 rad = 19.7 deg
+
+
+d.
+
+distcoeff = [k_1, k_2, p_1, p_2, k_3]
+
+Radial distortion:
+
+k_1 (2nd order), k_2 (4th order), k_3 (6th order)
+
+Tangential distortion:
+
+p_1 (on x), p_2 (on y)
+
+It seems that my camera has mild radial distortion and little 
+tangential distortion.
+

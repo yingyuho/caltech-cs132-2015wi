@@ -1,0 +1,20 @@
+============
+Requirements
+============
+
+The programs are guaranteed to run on Mac OS X 10.10 with OpenCV installed via
+Homebrew (http://brew.sh/).
+
+
+===========
+Compilation
+===========
+
+"make" gives three programs:
+
+bin/load	(Part A)
+bin/acquire	(Part B)
+bin/calib	(Part C)
+
+
+They can be executed without parameters.
